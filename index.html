@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riceee!</title>
+
+    <!-- Clear and attractive title tag -->
+    <title>Riceee! - Elegant Starry Background Website</title>
+
+    <!-- Optimized meta description -->
+    <meta name="description" content="Welcome to Riceee!">
+
     <style>
         body {
             background-color: #000;
@@ -26,7 +32,7 @@
 <div class="stars" id="stars"></div>
 
 <script>
-    // 创建星星背景
+    // Create star background
     function createStars() {
         const starsContainer = document.getElementById('stars');
         const starCount = 200;
@@ -37,22 +43,22 @@
             star.style.backgroundColor = 'white';
             star.style.borderRadius = '50%';
 
-            // 随机位置
+            // Random position
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
 
-            // 随机大小
+            // Random size
             const size = Math.random() * 2 + 1;
             star.style.width = size + 'px';
             star.style.height = size + 'px';
 
-            // 添加闪烁效果
+            // Add twinkling effect
             star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite ease-in-out`;
 
             starsContainer.appendChild(star);
         }
 
-        // 添加CSS动画
+        // Add CSS animation
         const style = document.createElement('style');
         style.textContent = `
                 @keyframes twinkle {
@@ -63,7 +69,7 @@
         document.head.appendChild(style);
     }
 
-    // 页面加载完成后创建星星
+    // Create stars after page loads
     window.addEventListener('load', createStars);
 </script>
 </body>
