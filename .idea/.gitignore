@@ -6,3 +6,20 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+# Ignore all workers code
+workers/
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Wrangler config
+wrangler.toml
+
+# Build output
+build/
+dist/

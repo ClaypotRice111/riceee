@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>FAQ - Riceee AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css" />
+    <meta name="description" content="Frequently Asked Questions about Riceee AI: Local AI assistant for Windows, runs on LM Studio, no cloud, no tracking." />
+</head>
+<body class="bg-black text-white font-sans">
+
+<!-- Header -->
+<header class="py-6 px-6 flex justify-between items-center border-b border-gray-800">
+    <h1 class="text-2xl font-bold tracking-tight">Riceee AI</h1>
+    <nav class="hidden md:flex space-x-8">
+        <a href="/" class="text-gray-300 hover:text-white transition">Home</a>
+        <a href="/download.html" class="text-gray-300 hover:text-white transition">Download</a>
+        <a href="/login.html" class="bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded text-sm font-medium transition">
+            Login
+        </a>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="px-6 py-20 max-w-3xl mx-auto">
+
+    <h2 class="text-4xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
+
+    <div class="space-y-8">
+
+        <!-- Q1 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">1. What is Riceee AI?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Riceee AI is a lightweight, private AI assistant for Windows that runs entirely on your PC using your local LM Studio model. No data leaves your computer. No cloud. No tracking.
+            </p>
+        </div>
+
+        <!-- Q2 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">2. How does it work?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Riceee AI connects to your local LM Studio server (running on <code class="bg-gray-800 px-1 rounded">http://localhost:1865</code>). It sends your voice/text input to your model and returns the response — all locally. You control the AI.
+            </p>
+        </div>
+
+        <!-- Q3 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">3. Do I need an internet connection?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Only for the first-time setup and model downloads. After that, you can use Riceee AI completely offline. Your data never goes to the cloud.
+            </p>
+        </div>
+
+        <!-- Q4 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">4. What models work with Riceee AI?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Any model supported by LM Studio: Mistral, Phi-3, TinyLlama, Llama 3, Qwen, etc. We recommend models under 4GB for best performance on average PCs.
+            </p>
+        </div>
+
+        <!-- Q5 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">5. Is it safe? Does it collect my data?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Absolutely. Riceee AI never sends your data to any server. All processing happens locally. We don’t log anything. You’re in full control.
+            </p>
+        </div>
+
+        <!-- Q6 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">6. Can I use it with my own model?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Yes! Just load your preferred model in LM Studio, start the server, and Riceee AI will connect automatically. No configuration needed.
+            </p>
+        </div>
+
+        <!-- Q7 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">7. Why not use a web-based AI?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Web-based AIs send your data to remote servers — they can store, analyze, or sell it. Riceee AI keeps everything private. Your privacy is the default.
+            </p>
+        </div>
+
+        <!-- Q8 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">8. What if LM Studio isn’t running?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Riceee AI will show a connection error. Make sure LM Studio is open and the server is running on port <code class="bg-gray-800 px-1 rounded">1865</code>. You’ll see a green status when connected.
+            </p>
+        </div>
+
+        <!-- Q9 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">9. Is it free?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Yes! The core app is free. We may offer optional premium features in the future (e.g. voice enhancement, custom themes), but the core AI experience will always remain free.
+            </p>
+        </div>
+
+        <!-- Q10 -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <h3 class="text-xl font-semibold text-gray-200 mb-3">10. How do I report a bug?</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Email us at <a href="mailto:support@riceee.com" class="text-gray-300 hover:underline">support@riceee.com</a>. Include your OS version, LM Studio version, and a description of the issue.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="mt-16 text-center text-gray-500 text-sm">
+        <p>Still have questions? <a href="mailto:support@riceee.com" class="text-gray-300 hover:underline">Contact us</a>.</p>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="py-8 text-center text-gray-500 text-sm border-t border-gray-800">
+    &copy; 2025 Riceee AI. All rights reserved.<br />
+    <span class="text-gray-600">Powered by Cloudflare + LM Studio.</span>
+</footer>
+
+<script>
+    // Optional: Add search or expand/collapse later
+</script>
+</body>
+</html>
