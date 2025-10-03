@@ -1,9 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- 首页 -->
     <url>
         <loc>https://riceee.com/index.html</loc>
-        <lastmod>2025-01-08</lastmod>
+        <lastmod>2025-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
+
+    <!-- 下载页 -->
+    <url>
+        <loc>https://riceee.com/download.html</loc>
+        <lastmod>2025-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- QA 页 -->
+    <url>
+        <loc>https://riceee.com/faq.html</loc>
+        <lastmod>2025-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- 付费页 -->
+    <url>
+        <loc>https://riceee.com/checkout.html</loc>
+        <lastmod>2025-04-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- 登录页 -->
+    <url>
+        <loc>https://riceee.com/login.html</loc>
+        <lastmod>2025-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- 仪表盘 -->
+    <url>
+        <loc>https://riceee.com/dashboard.html</loc>
+        <lastmod>2025-04-05</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- 关于页（可选） -->
+<!--    <url>-->
+<!--        <loc>https://riceee.com/about.html</loc>-->
+<!--        <lastmod>2025-04-05</lastmod>-->
+<!--        <changefreq>monthly</changefreq>-->
+<!--        <priority>0.6</priority>-->
+<!--    </url>-->
 </urlset>
