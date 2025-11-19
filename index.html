@@ -1,207 +1,517 @@
-<!-- index.html (English Version) -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional code quality testing platform - Analyze functionality, performance, maintainability, and robustness of your code">
-    <meta name="keywords" content="code quality, code analysis, code testing, performance testing, code review">
-    <meta name="author" content="Riceee">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riceee Digital Wheel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- Google Search Console Verification -->
-    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE">
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
+      background: #0a0a0a;
+      color: white;
+      height: 100vh;
+    }
 
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Code Quality Testing Platform | Riceee">
-    <meta property="og:description" content="Intelligent code analysis for functionality, performance, maintainability, and robustness">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://riceee.com">
-    <meta property="og:image" content="https://riceee.com/assets/og-image.jpg">
+    #stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://riceee.com">
+    .page-container {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 120px);
+      overflow: hidden;
+      z-index: 1;
+    }
 
-    <!-- Alternate Language -->
-    <link rel="alternate" hreflang="zh" href="https://riceee.com/zh_cn/">
-    <link rel="alternate" hreflang="en" href="https://riceee.com/">
+    .pages {
+      display: flex;
+      height: 100%;
+      will-change: transform;
+    }
 
-    <title>Code Quality Testing Platform | Riceee</title>
+    .page {
+      min-width: 100%;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    .page-inner {
+      max-width: 800px;
+      padding: 40px;
+      text-align: center;
+    }
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/assets/styles.css">
+    .page-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
 
-    <!-- Google Analytics (Optional) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'YOUR_GA_ID');
-    </script>
+    .page-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 40px;
+    }
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            "name": "Code Quality Testing Platform",
-            "url": "https://riceee.com",
-            "description": "Professional code quality analysis tool",
-            "applicationCategory": "DeveloperApplication",
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-            }
-        }
-    </script>
+    .page-block {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 20px 0;
+    }
+
+    .page-block h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .page-block p {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+
+    .dock-base {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 540px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 9;
+    }
+
+    .rotating-dock {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 540px;
+      height: 80px;
+      overflow: hidden;
+      z-index: 10;
+      cursor: grab;
+    }
+
+    .rotating-dock:active {
+      cursor: grabbing;
+    }
+
+    .dock-wheel {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      position: absolute;
+      left: 270px;
+    }
+
+    .dock-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 90px;
+      flex-shrink: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .dock-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+    }
+
+    .dock-item span {
+      margin-top: 8px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.8);
+      white-space: nowrap;
+    }
+
+    .page[data-id="minecraft"] .page-title {
+      background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page[data-id="nas"] .page-title {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page[data-id="ai"] .page-title {
+      background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page[data-id="tools"] .page-title {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page[data-id="status"] .page-title {
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page[data-id="discord"] .page-title {
+      background: linear-gradient(135deg, #5865f2 0%, #4752c4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
 </head>
 <body>
-<!-- Language Switcher -->
-<div class="language-switcher">
-    <a href="/" class="active">EN</a>
-    <a href="/zh_cn/">中文</a>
-</div>
+  <canvas id="stars"></canvas>
 
-<div class="stars"></div>
-<div class="twinkling"></div>
+  <div class="page-container">
+    <div class="pages">
+      <section class="page" data-id="minecraft">
+        <div class="page-inner">
+          <h1 class="page-title">Minecraft Server</h1>
+          <p class="page-subtitle">Join our epic survival world</p>
+          <div class="page-block">
+            <h3>🎮 Server Info</h3>
+            <p>IP: mc.riceee.com<br>Version: 1.20.1<br>Players: 8/20 online</p>
+          </div>
+          <div class="page-block">
+            <h3>🌍 Features</h3>
+            <p>Survival | Creative Plots | Mini Games | Economy System</p>
+          </div>
+        </div>
+      </section>
 
-<div class="container">
-    <header class="header">
-        <div class="logo">
-            <span class="logo-icon">🔍</span>
-            <span class="logo-text">Riceee</span>
+      <section class="page" data-id="nas">
+        <div class="page-inner">
+          <h1 class="page-title">NAS Cloud</h1>
+          <p class="page-subtitle">Your personal cloud storage</p>
+          <div class="page-block">
+            <h3>☁️ Storage Status</h3>
+            <p>Used: 2.3 TB / 10 TB<br>Files: 15,234<br>Backup: Daily at 3:00 AM</p>
+          </div>
+          <div class="page-block">
+            <h3>📁 Quick Access</h3>
+            <p>Photos | Documents | Videos | Music</p>
+          </div>
         </div>
-        <h1>Code Quality Testing Platform</h1>
-        <p class="subtitle">Intelligent analysis of code functionality, performance, maintainability, and robustness</p>
-    </header>
+      </section>
 
-    <div class="test-grid">
-        <div class="test-card correctness">
-            <h3><span class="icon">✅</span>Functionality</h3>
-            <p>Test code logic correctness, output expectations, and boundary condition handling</p>
+      <section class="page" data-id="ai">
+        <div class="page-inner">
+          <h1 class="page-title">Riceee AI</h1>
+          <p class="page-subtitle">Powered by advanced models</p>
+          <div class="page-block">
+            <h3>🤖 AI Services</h3>
+            <p>Chat Assistant | Image Generation | Code Helper | Translation</p>
+          </div>
+          <div class="page-block">
+            <h3>✨ Features</h3>
+            <p>24/7 Available | Multi-language | Fast Response | Private & Secure</p>
+          </div>
         </div>
-        <div class="test-card performance">
-            <h3><span class="icon">⚡</span>Performance</h3>
-            <p>Evaluate time complexity, space complexity, execution efficiency, and resource usage</p>
+      </section>
+
+      <section class="page" data-id="tools">
+        <div class="page-inner">
+          <h1 class="page-title">Tools & Utilities</h1>
+          <p class="page-subtitle">Handy tools for daily use</p>
+          <div class="page-block">
+            <h3>🛠️ Available Tools</h3>
+            <p>URL Shortener | QR Generator | File Converter | Password Generator</p>
+          </div>
+          <div class="page-block">
+            <h3>📊 Analytics</h3>
+            <p>Usage Stats | Performance Monitor | API Status</p>
+          </div>
         </div>
-        <div class="test-card maintainability">
-            <h3><span class="icon">🔧</span>Maintainability</h3>
-            <p>Check code standards, comment quality, naming conventions, and code structure clarity</p>
+      </section>
+
+      <section class="page" data-id="status">
+        <div class="page-inner">
+          <h1 class="page-title">System Status</h1>
+          <p class="page-subtitle">All systems operational</p>
+          <div class="page-block">
+            <h3>🟢 Services</h3>
+            <p>Website: ✓ Online<br>API: ✓ Operational<br>Database: ✓ Healthy<br>CDN: ✓ Fast</p>
+          </div>
+          <div class="page-block">
+            <h3>📈 Performance</h3>
+            <p>Uptime: 99.98% | Response: 45ms | Load: 23%</p>
+          </div>
         </div>
-        <div class="test-card robustness">
-            <h3><span class="icon">🛡️</span>Robustness</h3>
-            <p>Test exception handling, input validation, error recovery, and security</p>
+      </section>
+
+      <section class="page" data-id="discord">
+        <div class="page-inner">
+          <h1 class="page-title">Discord Server</h1>
+          <p class="page-subtitle">Join our community</p>
+          <div class="page-block">
+            <h3>💬 Community</h3>
+            <p>Members: 1,234<br>Online: 156<br>Channels: 25<br>Active: Very High</p>
+          </div>
+          <div class="page-block">
+            <h3>🎉 Features</h3>
+            <p>Voice Channels | Gaming | Events | Giveaways</p>
+          </div>
         </div>
+      </section>
     </div>
+  </div>
 
-    <div class="input-section">
-        <div class="language-selector">
-            <label for="language">Select Programming Language:</label>
-            <select id="language">
-                <option value="javascript">JavaScript</option>
-                <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="cpp">C++</option>
-                <option value="go">Go</option>
-                <option value="rust">Rust</option>
-            </select>
-        </div>
+  <div class="dock-base"></div>
+  <div class="rotating-dock">
+    <div class="dock-wheel" id="dockWheel"></div>
+  </div>
 
-        <textarea class="code-input" id="codeInput" placeholder="Paste your code here...
+  <script>
+    // 星空背景
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
 
-Example (JavaScript):
-function fibonacci(n) {
-    if (n <= 1) return n;
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}"></textarea>
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      stars = [];
+      for (let i = 0; i < 200; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5,
+          opacity: Math.random(),
+          speed: Math.random() * 0.02 + 0.01
+        });
+      }
+    }
 
-        <button class="btn-primary" onclick="analyzeCode()">
-            <span class="btn-icon">🚀</span>
-            Start Analysis
-        </button>
-    </div>
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.opacity += star.speed;
+        if (star.opacity > 1 || star.opacity < 0) star.speed *= -1;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
 
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <p>Analyzing code quality, please wait...</p>
-    </div>
+    resizeCanvas();
+    drawStars();
+    window.addEventListener('resize', resizeCanvas);
 
-    <div class="results" id="results">
-        <div class="score-overview">
-            <div class="overall-score">
-                <h2 id="overallScore">-</h2>
-                <p>Overall Score</p>
-            </div>
-            <div class="score-bars">
-                <div class="score-bar">
-                    <div class="score-bar-label">
-                        <span>Functionality</span>
-                        <span id="correctnessScore">-</span>
-                    </div>
-                    <div class="score-bar-fill">
-                        <div class="score-bar-progress" id="correctnessBar"></div>
-                    </div>
-                </div>
-                <div class="score-bar">
-                    <div class="score-bar-label">
-                        <span>Performance</span>
-                        <span id="performanceScore">-</span>
-                    </div>
-                    <div class="score-bar-fill">
-                        <div class="score-bar-progress" id="performanceBar"></div>
-                    </div>
-                </div>
-                <div class="score-bar">
-                    <div class="score-bar-label">
-                        <span>Maintainability</span>
-                        <span id="maintainabilityScore">-</span>
-                    </div>
-                    <div class="score-bar-fill">
-                        <div class="score-bar-progress" id="maintainabilityBar"></div>
-                    </div>
-                </div>
-                <div class="score-bar">
-                    <div class="score-bar-label">
-                        <span>Robustness</span>
-                        <span id="robustnessScore">-</span>
-                    </div>
-                    <div class="score-bar-fill">
-                        <div class="score-bar-progress" id="robustnessBar"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    // 图标数据
+    const icons = [
+      { name: 'Minecraft', page: 0, svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%234ade80' width='100' height='100' rx='20'/%3E%3Cpath fill='white' d='M30 30h10v10h-10zm15 0h10v10h-10zm15 0h10v10h-10zm-30 15h10v10h-10zm15 0h10v10h-10zm15 0h10v10h-10zm-30 15h10v10h-10zm15 0h10v10h-10zm15 0h10v10h-10z'/%3E%3C/svg%3E" },
+      { name: 'NAS', page: 1, svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%233b82f6' width='100' height='100' rx='20'/%3E%3Cpath fill='white' d='M30 25h40v15h-40zm0 20h40v30h-40z'/%3E%3C/svg%3E" },
+      { name: 'AI', page: 2, svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23a855f7' width='100' height='100' rx='20'/%3E%3Ccircle fill='white' cx='35' cy='40' r='8'/%3E%3Ccircle fill='white' cx='65' cy='40' r='8'/%3E%3Cpath fill='white' d='M30 60q20 15 40 0' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E" },
+      { name: 'Tools', page: 3, svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23f59e0b' width='100' height='100' rx='20'/%3E%3Cpath fill='white' d='M40 25l10 20h15l-10 30-10-20h-15z'/%3E%3C/svg%3E" },
+      { name: 'Status', page: 4, svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%2306b6d4' width='100' height='100' rx='20'/%3E%3Ccircle fill='white' cx='50' cy='50' r='20' stroke='white' stroke-width='3' fill='none'/%3E%3Cpath fill='white' d='M50 35v15l10 10'/%3E%3C/svg%3E" },
+      { name: 'Discord', page: 5, svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%235865f2' width='100' height='100' rx='20'/%3E%3Cpath fill='white' d='M35 35c5-5 10-8 15-8s10 3 15 8c0 0-5 15-5 20s3 10 3 15c-3 5-8 8-13 8s-10-3-13-8c0-5 3-10 3-15s-5-20-5-20z'/%3E%3C/svg%3E" }
+    ];
 
-        <div class="detail-section">
-            <h3>✅ Functionality Details</h3>
-            <div id="correctnessDetails"></div>
-        </div>
+    const ITEM_WIDTH = 90;
+    const NUM_ITEMS = icons.length;
+    const pages = document.querySelector('.pages');
+    const pageContainer = document.querySelector('.page-container');
+    const dockWheel = document.getElementById('dockWheel');
 
-        <div class="detail-section">
-            <h3>⚡ Performance Details</h3>
-            <div id="performanceDetails"></div>
-        </div>
+    let currentPage = 0;
+    let wheelPosition = 0;
+    let isDragging = false;
+    let startX = 0;
+    let startWheelPos = 0;
 
-        <div class="detail-section">
-            <h3>🔧 Maintainability Details</h3>
-            <div id="maintainabilityDetails"></div>
-        </div>
+    // 创建3组图标实现无限循环
+    function createDock() {
+      dockWheel.innerHTML = '';
+      for (let copy = 0; copy < 3; copy++) {
+        icons.forEach((icon, idx) => {
+          const item = document.createElement('div');
+          item.className = 'dock-item';
+          item.innerHTML = `<img src="${icon.svg}" alt="${icon.name}"><span>${icon.name}</span>`;
+          item.dataset.realIndex = idx;
+          item.addEventListener('click', () => goToPage(idx));
+          dockWheel.appendChild(item);
+        });
+      }
+    }
 
-        <div class="detail-section">
-            <h3>🛡️ Robustness Details</h3>
-            <div id="robustnessDetails"></div>
-        </div>
-    </div>
+    // 更新dock位置和样式
+    function updateDock(smooth = false) {
+      // 归一化位置到0-6之间
+      let normalizedPos = ((wheelPosition % NUM_ITEMS) + NUM_ITEMS) % NUM_ITEMS;
+      
+      // 计算显示位置（中间组为基准）
+      const displayOffset = -(NUM_ITEMS + normalizedPos) * ITEM_WIDTH;
+      
+      if (smooth) {
+        dockWheel.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      } else {
+        dockWheel.style.transition = 'none';
+      }
+      
+      dockWheel.style.transform = `translateX(${displayOffset}px)`;
+      
+      // 更新所有图标样式
+      const items = dockWheel.querySelectorAll('.dock-item');
+      items.forEach((item, idx) => {
+        const itemPos = (idx - NUM_ITEMS) * ITEM_WIDTH + displayOffset;
+        const dist = Math.abs(itemPos);
+        
+        const scale = dist < 20 ? 1 : Math.max(0.6, 1 - dist / 300);
+        const opacity = dist < 20 ? 1 : Math.max(0.3, 1 - dist / 250);
+        const translateY = dist < 20 ? -10 : 0;
+        
+        item.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+        item.style.opacity = opacity;
+        item.style.transition = smooth ? 'all 0.3s ease' : 'all 0.1s ease';
+      });
+    }
 
-    <footer class="footer">
-        <p>&copy; 2025 Riceee.com | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
-    </footer>
-</div>
+    // 切换页面
+    function goToPage(index, smooth = true) {
+      currentPage = index;
+      wheelPosition = index;
+      
+      const pageWidth = pageContainer.getBoundingClientRect().width;
+      if (smooth) {
+        pages.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      } else {
+        pages.style.transition = 'none';
+      }
+      pages.style.transform = `translateX(-${currentPage * pageWidth}px)`;
+      updateDock(smooth);
+    }
 
-<script src="/assets/script.js"></script>
+    // Dock拖动
+    function onDockStart(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      isDragging = true;
+      startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+      startWheelPos = wheelPosition;
+    }
+
+    function onDockMove(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+      const diff = startX - currentX;
+      
+      wheelPosition = startWheelPos + diff / ITEM_WIDTH;
+      updateDock(false);
+      
+      // 实时更新页面
+      let targetPage = Math.round(wheelPosition);
+      targetPage = ((targetPage % NUM_ITEMS) + NUM_ITEMS) % NUM_ITEMS;
+      
+      const pageWidth = pageContainer.getBoundingClientRect().width;
+      pages.style.transition = 'none';
+      pages.style.transform = `translateX(-${targetPage * pageWidth}px)`;
+    }
+
+    function onDockEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+      
+      let targetPage = Math.round(wheelPosition);
+      targetPage = ((targetPage % NUM_ITEMS) + NUM_ITEMS) % NUM_ITEMS;
+      
+      goToPage(targetPage, true);
+    }
+
+    dockWheel.addEventListener('mousedown', onDockStart);
+    document.addEventListener('mousemove', onDockMove);
+    document.addEventListener('mouseup', onDockEnd);
+    dockWheel.addEventListener('touchstart', onDockStart, { passive: false });
+    document.addEventListener('touchmove', onDockMove, { passive: false });
+    document.addEventListener('touchend', onDockEnd);
+
+    // 滚轮
+    dockWheel.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 1 : -1;
+      wheelPosition += delta;
+      
+      let targetPage = Math.round(wheelPosition);
+      targetPage = ((targetPage % NUM_ITEMS) + NUM_ITEMS) % NUM_ITEMS;
+      
+      goToPage(targetPage, true);
+    });
+
+    // 页面拖动
+    let pageDragging = false;
+    let pageStartX = 0;
+    let pageStartOffset = 0;
+
+    pageContainer.addEventListener('mousedown', (e) => {
+      if (isDragging) return;
+      pageDragging = true;
+      pageStartX = e.clientX;
+      const pageWidth = pageContainer.getBoundingClientRect().width;
+      pageStartOffset = -currentPage * pageWidth;
+      pages.style.transition = 'none';
+    });
+
+    pageContainer.addEventListener('mousemove', (e) => {
+      if (!pageDragging) return;
+      const diff = e.clientX - pageStartX;
+      pages.style.transform = `translateX(${pageStartOffset + diff}px)`;
+    });
+
+    pageContainer.addEventListener('mouseup', (e) => {
+      if (!pageDragging) return;
+      pageDragging = false;
+      
+      const diff = e.clientX - pageStartX;
+      const pageWidth = pageContainer.getBoundingClientRect().width;
+      
+      if (Math.abs(diff) > pageWidth / 4) {
+        if (diff > 0) {
+          currentPage = (currentPage - 1 + NUM_ITEMS) % NUM_ITEMS;
+        } else {
+          currentPage = (currentPage + 1) % NUM_ITEMS;
+        }
+      }
+      
+      goToPage(currentPage, true);
+    });
+
+    window.addEventListener('resize', () => goToPage(currentPage, false));
+
+    createDock();
+    goToPage(0, false);
+  </script>
 </body>
 </html>
