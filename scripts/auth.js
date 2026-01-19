@@ -13,6 +13,9 @@ function toggleMode() {
 async function handleSubmit() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    // 🆕 新增：获取记住我的状态 (true 或 false)
+    const rememberMe = document.getElementById('rememberMe') ? document.getElementById('rememberMe').checked : false;
+
     const msgBox = document.getElementById('msg');
 
     if(!username || !password) {
@@ -30,7 +33,8 @@ async function handleSubmit() {
         const res = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            // 🆕 修改：把 rememberMe 发送给后端
+            body: JSON.stringify({ username, password, rememberMe })
         });
 
         if (res.ok) {
