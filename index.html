@@ -1,136 +1,514 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Riceee.com - 登录/注册</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f3f3f3;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      margin: 0;
-    }
-
-    .box {
-      background: white;
-      padding: 2.5rem;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      width: 320px;
-      text-align: center;
-    }
-
-    h2 {
-      margin-top: 0;
-      color: #333;
-    }
-
-    /* 输入框样式 */
-    input[type="text"],
-    input[type="password"] {
-      padding: 12px;
-      margin: 10px 0;
-      width: 100%;
-      box-sizing: border-box; /* 确保内边距不会撑大宽度 */
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 16px;
-      transition: border-color 0.3s;
-    }
-
-    input:focus {
-      border-color: #000;
-      outline: none;
-    }
-
-    /* 记住我 复选框样式 */
-    .remember-box {
-      text-align: left;
-      margin: 5px 0 15px 0;
-      font-size: 14px;
-      color: #666;
-      display: flex;
-      align-items: center;
-    }
-
-    .remember-box input {
-      margin-right: 8px;
-      width: auto; /* 重置上面 input 的 100% 宽度 */
-      cursor: pointer;
-    }
-
-    .remember-box label {
-      cursor: pointer;
-      user-select: none;
-    }
-
-    /* 按钮样式 */
-    button {
-      padding: 12px 20px;
-      cursor: pointer;
-      background: #000;
-      color: white;
-      border: none;
-      width: 100%;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: 600;
-      transition: opacity 0.2s;
-    }
-
-    button:hover {
-      opacity: 0.85;
-    }
-
-    /* 切换链接样式 */
-    .toggle {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #0070f3;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .toggle:hover {
-      text-decoration: underline;
-    }
-
-    /* 错误信息区域 */
-    #msg {
-      min-height: 20px;
-      margin-top: 15px;
-      font-size: 13px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riceee Hub - 私人资源库</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* 加载中的骨架屏动画 */
+        .skeleton { background: #e5e7eb; border-radius: 0.5rem; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    </style>
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen text-gray-800 font-sans">
 
-<div class="box">
-  <h2 id="title">登录</h2>
+<nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="#" onclick="navigateTo('home')" class="flex items-center gap-2 text-xl font-bold text-gray-900 hover:text-orange-600 transition-colors">
+                    <i data-lucide="folder" class="w-6 h-6 text-orange-600"></i>
+                    Riceee
+                </a>
 
-  <input type="text" id="username" placeholder="用户名" autocomplete="username">
-  <input type="password" id="password" placeholder="密码" autocomplete="current-password">
+                <div id="desktop-nav" class="hidden md:flex gap-1 hidden">
+                    <button onclick="navigateTo('links')" class="nav-btn px-4 py-2 rounded-xl font-medium text-gray-600 hover:bg-gray-50 transition-all" data-page="links">链接</button>
+                    <button onclick="navigateTo('projects')" class="nav-btn px-4 py-2 rounded-xl font-medium text-gray-600 hover:bg-gray-50 transition-all" data-page="projects">项目</button>
+                    <button onclick="navigateTo('files')" class="nav-btn px-4 py-2 rounded-xl font-medium text-gray-600 hover:bg-gray-50 transition-all" data-page="files">文件</button>
+                </div>
+            </div>
 
-  <div class="remember-box" id="rememberDiv">
-    <label>
-      <input type="checkbox" id="rememberMe"> 记住我 (30天免登录)
-    </label>
-  </div>
+            <div class="flex items-center gap-3">
+                <div id="auth-buttons" class="flex items-center gap-3">
+                    <button onclick="openAuthModal('login')" class="hidden md:block px-4 py-2 bg-orange-600 text-white rounded-xl font-medium hover:bg-orange-700 transition-all">登录</button>
+                </div>
 
-  <button id="btn" onclick="handleSubmit()">登录</button>
+                <div id="user-menu" class="hidden flex items-center gap-3">
+                    <button onclick="navigateTo('settings')" class="hidden md:block p-2 text-gray-600 hover:text-orange-600 hover:bg-gray-50 rounded-xl transition-all" title="设置">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                    </button>
+                    <button onclick="logout()" class="hidden md:block p-2 text-gray-600 hover:text-red-600 hover:bg-gray-50 rounded-xl transition-all" title="退出">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
 
-  <div class="toggle" onclick="toggleMode()" id="toggleText">
-    没有账号？去注册
-  </div>
+                <button class="md:hidden p-2 text-gray-600">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
 
-  <p id="msg"></p>
+<main id="app-content" class="min-h-[calc(100vh-73px)]">
+</main>
+
+<div id="auth-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 hidden fade-in">
+    <div class="bg-white rounded-3xl shadow-xl max-w-md w-full p-8 relative">
+        <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <h2 id="modal-title" class="text-2xl font-bold text-gray-900 mb-6">登录</h2>
+
+        <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">用户名</label>
+                <input type="text" id="username" required class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition-colors" placeholder="输入用户名">
+            </div>
+
+            <div id="email-field" class="hidden">
+                <label class="block text-sm font-medium text-gray-700 mb-2">邮箱</label>
+                <input type="email" id="email" class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition-colors" placeholder="your@email.com">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">密码</label>
+                <div class="relative">
+                    <input type="password" id="password" required class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition-colors" placeholder="输入密码">
+                </div>
+            </div>
+
+            <div id="captcha-container" class="hidden">
+                <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <i data-lucide="shield" class="w-4 h-4"></i> 验证码
+                </label>
+                <div class="flex gap-3 items-center">
+                    <div id="captcha-question" class="flex-1 px-4 py-3 bg-orange-50 border-2 border-orange-200 rounded-xl text-center font-bold text-lg text-gray-900">
+                    </div>
+                    <input type="number" id="captcha-input" class="w-20 px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none text-center" placeholder="?">
+                </div>
+            </div>
+
+            <button type="submit" class="w-full py-3 bg-orange-600 text-white rounded-xl font-medium hover:bg-orange-700 transition-all shadow-lg shadow-orange-200">
+                提交
+            </button>
+        </form>
+
+        <div class="mt-4 text-center text-sm text-gray-500">
+            <span id="switch-text">还没有账号？</span>
+            <button onclick="toggleAuthMode()" id="switch-btn" class="text-orange-600 font-semibold hover:underline">去注册</button>
+        </div>
+    </div>
 </div>
 
-<script src="/scripts/auth.js"></script>
+<script>
+    // --- 1. 数据状态 ---
+    const state = {
+        isLoggedIn: false,
+        user: null,
+        currentPage: 'home',
+        searchQuery: '',
+        authMode: 'login',
+        captcha: { num1: 0, num2: 0, operator: '+', answer: 0 },
+        loading: true // 新增加载状态
+    };
 
+    // 这里的 data 初始为空，不再硬编码
+    let data = {
+        links: [],
+        projects: [],
+        files: []
+    };
+
+    // --- 2. 初始化与API ---
+    document.addEventListener('DOMContentLoaded', () => {
+        render();
+        lucide.createIcons();
+        fetchData(); // 启动数据获取
+    });
+
+    // ★ 核心修改：从 Cloudflare API 获取数据
+    async function fetchData() {
+        try {
+            // 请求 functions/api/data.js
+            const response = await fetch('/api/data');
+
+            if (!response.ok) {
+                throw new Error('网络请求失败');
+            }
+
+            const result = await response.json();
+
+            // 数据处理：Links 的 tags 从字符串 "code,tool" 转为数组
+            data.links = (result.links || []).map(link => ({
+                ...link,
+                tags: link.tags ? link.tags.split(',') : []
+            }));
+
+            data.projects = result.projects || [];
+            data.files = result.files || []; // 暂时为空
+
+            state.loading = false;
+            console.log("数据加载完成:", data);
+
+            render(); // 重新渲染页面
+            lucide.createIcons();
+        } catch (error) {
+            console.error("无法连接到后端:", error);
+            // 可以在这里加一个错误提示 UI
+            state.loading = false;
+        }
+    }
+
+    // --- 3. 渲染逻辑 ---
+    function render() {
+        updateNav();
+        const app = document.getElementById('app-content');
+
+        if (state.currentPage === 'home') {
+            app.innerHTML = renderHome();
+        } else if (state.currentPage === 'links') {
+            app.innerHTML = renderLinks();
+        } else if (state.currentPage === 'projects') {
+            app.innerHTML = renderProjects();
+        } else if (state.currentPage === 'files') {
+            app.innerHTML = renderFiles();
+        } else if (state.currentPage === 'settings') {
+            app.innerHTML = renderSettings();
+        }
+
+        lucide.createIcons();
+    }
+
+    function updateNav() {
+        const desktopNav = document.getElementById('desktop-nav');
+        const authButtons = document.getElementById('auth-buttons');
+        const userMenu = document.getElementById('user-menu');
+
+        if (state.isLoggedIn) {
+            desktopNav.classList.remove('hidden');
+            authButtons.classList.add('hidden');
+            userMenu.classList.remove('hidden');
+            userMenu.classList.add('flex');
+        } else {
+            desktopNav.classList.add('hidden');
+            authButtons.classList.remove('hidden');
+            userMenu.classList.add('hidden');
+            userMenu.classList.remove('flex');
+        }
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            if (btn.dataset.page === state.currentPage) {
+                btn.className = 'nav-btn px-4 py-2 rounded-xl font-medium transition-all bg-orange-50 text-orange-600';
+            } else {
+                btn.className = 'nav-btn px-4 py-2 rounded-xl font-medium transition-all text-gray-600 hover:bg-gray-50';
+            }
+        });
+    }
+
+    // --- 4. 页面模板 ---
+
+    function renderHome() {
+        return `
+                <div class="min-h-[80vh] flex items-center justify-center px-6 fade-in">
+                    <div class="max-w-4xl w-full text-center">
+                        <div class="mb-8">
+                            <div class="inline-block p-5 bg-gradient-to-br from-orange-100 to-rose-100 rounded-3xl mb-4 shadow-sm">
+                                <i data-lucide="folder" class="w-16 h-16 text-orange-600"></i>
+                            </div>
+                        </div>
+                        <h1 class="text-5xl md:text-6xl font-bold mb-4 text-gray-900 tracking-tight">Riceee Hub</h1>
+                        <p class="text-xl text-gray-600 mb-10">我的私人数字资源库与整合包基地</p>
+
+                        ${!state.isLoggedIn ? `
+                            <div class="flex gap-4 justify-center">
+                                <button onclick="openAuthModal('login')" class="px-8 py-3 bg-orange-600 text-white rounded-2xl font-medium hover:bg-orange-700 transition-all shadow-lg shadow-orange-200">立即登录</button>
+                                <button onclick="openAuthModal('register')" class="px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 rounded-2xl font-medium hover:border-orange-600 hover:text-orange-600 transition-all">注册账号</button>
+                            </div>
+                            <div class="grid md:grid-cols-3 gap-6 mt-20 text-left">
+                                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-4"><i data-lucide="link-2" class="text-blue-600 w-5 h-5"></i></div>
+                                    <h3 class="font-bold text-gray-900">链接收藏</h3>
+                                    <p class="text-sm text-gray-500 mt-1">云端同步的常用书签</p>
+                                </div>
+                                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                                    <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mb-4"><i data-lucide="package" class="text-purple-600 w-5 h-5"></i></div>
+                                    <h3 class="font-bold text-gray-900">项目仓库</h3>
+                                    <p class="text-sm text-gray-500 mt-1">付费项目展示与管理</p>
+                                </div>
+                                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                                    <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center mb-4"><i data-lucide="download" class="text-orange-600 w-5 h-5"></i></div>
+                                    <h3 class="font-bold text-gray-900">大型文件</h3>
+                                    <p class="text-sm text-gray-500 mt-1">高速下载 Minecraft 整合包</p>
+                                </div>
+                            </div>
+                        ` : `
+                            <button onclick="navigateTo('links')" class="px-8 py-3 bg-orange-600 text-white rounded-2xl font-medium hover:bg-orange-700 transition-all inline-flex items-center gap-2 shadow-lg shadow-orange-200">
+                                打开资源库 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `;
+    }
+
+    function renderLinks() {
+        if (state.loading) return renderSkeleton(); // 如果还在加载数据库，显示骨架屏
+
+        const filtered = data.links.filter(l =>
+            l.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+            (l.tags && l.tags.some(t => t.includes(state.searchQuery)))
+        );
+
+        return `
+                <div class="max-w-6xl mx-auto p-6 fade-in">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">快捷链接</h2>
+                            <p class="text-sm text-gray-500 mt-1">共 ${data.links.length} 个资源 (来自 Cloudflare D1)</p>
+                        </div>
+                        <button class="px-4 py-2 bg-orange-600 text-white rounded-xl font-medium hover:bg-orange-700 transition-all flex items-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> 添加链接
+                        </button>
+                    </div>
+
+                    <div class="relative mb-8">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                        <input type="text" placeholder="搜索链接或标签..." value="${state.searchQuery}" oninput="handleSearch(this.value)"
+                            class="w-full pl-12 pr-4 py-3 bg-white border-2 border-gray-100 rounded-xl focus:border-orange-500 focus:outline-none transition-colors shadow-sm">
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        ${filtered.length === 0 ? '<div class="col-span-2 text-center text-gray-400 py-10">暂无数据或数据库连接中...</div>' : ''}
+                        ${filtered.map(link => `
+                            <div class="bg-white border border-gray-200 rounded-2xl p-5 hover:border-orange-300 hover:shadow-md transition-all group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex-1">
+                                        <a href="${link.url}" target="_blank" class="flex items-center gap-2 mb-1 group-hover:text-orange-600 transition-colors font-bold text-gray-900">
+                                            ${link.title} <i data-lucide="external-link" class="w-3 h-3 text-gray-400"></i>
+                                        </a>
+                                        <p class="text-xs text-gray-400 truncate">${link.url}</p>
+                                    </div>
+                                    <i data-lucide="star" class="w-5 h-5 ${link.favorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}"></i>
+                                </div>
+                                <div class="flex items-center justify-between mt-4">
+                                    <div class="flex gap-2">
+                                        ${link.tags ? link.tags.map(tag => `<span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium">${tag}</span>`).join('') : ''}
+                                    </div>
+                                    <span class="text-xs text-gray-400 font-medium">${link.visits || 0} 访问</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+    }
+
+    function renderProjects() {
+        if (state.loading) return renderSkeleton();
+
+        return `
+                <div class="max-w-6xl mx-auto p-6 fade-in">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900">我的项目</h2>
+                        <button class="px-4 py-2 bg-orange-600 text-white rounded-xl font-medium hover:bg-orange-700 transition-all flex items-center gap-2">
+                            <i data-lucide="upload-cloud" class="w-4 h-4"></i> 发布项目
+                        </button>
+                    </div>
+                    <div class="space-y-4">
+                        ${data.projects.length === 0 ? '<div class="text-center text-gray-400 py-10">暂无项目数据</div>' : ''}
+                        ${data.projects.map(proj => `
+                            <div class="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-300 transition-all hover:shadow-md">
+                                <div class="flex items-start justify-between flex-wrap gap-4">
+                                    <div class="flex items-center gap-5 flex-1">
+                                        <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center shrink-0">
+                                            <i data-lucide="package" class="w-7 h-7"></i>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center gap-3 mb-1">
+                                                <h3 class="font-bold text-lg text-gray-900">${proj.name}</h3>
+                                                <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded-md text-xs font-bold">${proj.status === 'active' ? '在线' : '下线'}</span>
+                                            </div>
+                                            <div class="flex gap-4 text-sm text-gray-500 font-medium">
+                                                <span class="flex items-center gap-1"><i data-lucide="hard-drive" class="w-3 h-3"></i> ${proj.size || '未知'}</span>
+                                                <span class="flex items-center gap-1"><i data-lucide="download" class="w-3 h-3"></i> ${proj.downloads || 0}</span>
+                                                <span class="${proj.price > 0 ? 'text-orange-600' : 'text-green-600'} font-bold">
+                                                    ${proj.price > 0 ? '¥' + proj.price : '免费'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button class="px-4 py-2 bg-orange-600 text-white rounded-xl text-sm font-bold hover:bg-orange-700 transition-all">获取</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+    }
+
+    function renderFiles() {
+        // 暂时还是硬编码的假数据或空数据，后续对接 R2
+        return `
+                <div class="max-w-6xl mx-auto p-6 fade-in">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900">服务器文件</h2>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-all flex items-center gap-2">
+                            <i data-lucide="upload" class="w-4 h-4"></i> 上传文件
+                        </button>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 text-center">
+                        <p class="text-blue-800 font-medium mb-2">🚧 文件存储系统 (R2) 配置中...</p>
+                        <p class="text-sm text-blue-600">请完成 Cloudflare R2 绑定后开启此功能。</p>
+                    </div>
+                </div>
+            `;
+    }
+
+    function renderSettings() {
+        return `
+                <div class="max-w-2xl mx-auto p-6 fade-in">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">账户设置</h2>
+                    <div class="bg-white border-2 border-gray-100 rounded-3xl p-8 space-y-6">
+                        <div class="flex items-center gap-5 pb-6 border-b border-gray-100">
+                            <div class="w-20 h-20 bg-gradient-to-br from-orange-400 to-rose-500 rounded-full flex items-center justify-center text-3xl text-white font-bold shadow-lg">
+                                ${state.user ? state.user.charAt(0).toUpperCase() : 'U'}
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-900">${state.user}</h3>
+                                <p class="text-sm text-gray-500">user@riceee.com</p>
+                            </div>
+                        </div>
+                        <button class="w-full py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-all">保存更改</button>
+                    </div>
+                </div>
+            `;
+    }
+
+    function renderSkeleton() {
+        return `
+                <div class="max-w-6xl mx-auto p-6 space-y-4">
+                    <div class="h-8 w-48 skeleton mb-8"></div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="h-32 skeleton"></div>
+                        <div class="h-32 skeleton"></div>
+                        <div class="h-32 skeleton"></div>
+                        <div class="h-32 skeleton"></div>
+                    </div>
+                </div>
+            `;
+    }
+
+    // --- 5. 交互逻辑 ---
+
+    function navigateTo(page) {
+        // 权限检查
+        if (['links', 'projects', 'files', 'settings'].includes(page) && !state.isLoggedIn) {
+            openAuthModal('login');
+            return;
+        }
+        state.currentPage = page;
+        render();
+    }
+
+    function handleSearch(val) {
+        state.searchQuery = val;
+        render();
+        setTimeout(() => {
+            const input = document.querySelector('input[type="text"]');
+            if(input) {
+                input.focus();
+                input.value = val;
+            }
+        }, 0);
+    }
+
+    function generateCaptcha() {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        const ops = ['+', '×'];
+        const operator = ops[Math.floor(Math.random() * ops.length)];
+        let answer = operator === '+' ? num1 + num2 : num1 * num2;
+
+        state.captcha = { num1, num2, operator, answer };
+
+        const qDiv = document.getElementById('captcha-question');
+        if(qDiv) qDiv.textContent = `${num1} ${operator} ${num2} = ?`;
+    }
+
+    function openAuthModal(mode) {
+        state.authMode = mode;
+        const modal = document.getElementById('auth-modal');
+        const title = document.getElementById('modal-title');
+        const emailField = document.getElementById('email-field');
+        const switchText = document.getElementById('switch-text');
+        const switchBtn = document.getElementById('switch-btn');
+        const captchaContainer = document.getElementById('captcha-container');
+
+        modal.classList.remove('hidden');
+
+        if (mode === 'login') {
+            title.textContent = '登录';
+            emailField.classList.add('hidden');
+            captchaContainer.classList.add('hidden');
+            switchText.textContent = '还没有账号？';
+            switchBtn.textContent = '去注册';
+        } else {
+            title.textContent = '注册账号';
+            emailField.classList.remove('hidden');
+            captchaContainer.classList.remove('hidden');
+            switchText.textContent = '已有账号？';
+            switchBtn.textContent = '去登录';
+            generateCaptcha();
+        }
+    }
+
+    function closeAuthModal() {
+        document.getElementById('auth-modal').classList.add('hidden');
+    }
+
+    function toggleAuthMode() {
+        openAuthModal(state.authMode === 'login' ? 'register' : 'login');
+    }
+
+    function handleAuthSubmit(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+
+        if (state.authMode === 'register') {
+            const inputAns = parseInt(document.getElementById('captcha-input').value);
+            if (inputAns !== state.captcha.answer) {
+                alert('验证码算错啦！再试一次。');
+                generateCaptcha();
+                document.getElementById('captcha-input').value = '';
+                return;
+            }
+        }
+
+        state.isLoggedIn = true;
+        state.user = username;
+        closeAuthModal();
+        navigateTo('links');
+    }
+
+    function logout() {
+        if(confirm('确定要退出登录吗？')) {
+            state.isLoggedIn = false;
+            state.user = null;
+            navigateTo('home');
+        }
+    }
+
+    document.getElementById('auth-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'auth-modal') closeAuthModal();
+    });
+
+</script>
 </body>
 </html>
